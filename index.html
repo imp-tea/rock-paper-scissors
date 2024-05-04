@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body
+    <p>Make your choice!</p>
+    <select>
+        <option>--choose--</option>
+        <option>Rock</option>
+        <option>Paper</option>
+        <option>Scissors</option>
+    </select>
+    
+    <button>Go!</button>
+
+    <div id="result"></div>
+
+    <script>
+        const select = document.querySelector('select');
+        const options = ["Rock", "Paper", "Scissors"];
+
+        function onClick() {
+            let userChoice = select.value;
+            let computerChoice = options[Math.floor(Math.random()*2.999)];
+            const result = document.querySelector('div');
+            result.textContent = "Test!";
+            if (userChoice == "--choose--"){
+                result.textContent = "You have to pick one!"
+            } else if (userChoice == computerChoice) {
+                result.textContent = `Both sides choose ${userChoice}; Draw!`;
+            } else if (shoot(userChoice, computerChoice)) {
+                result.textContent = `${userChoice} beats ${computerChoice}; You win!`;
+            } else {
+                result.textContent = `${userChoice} loses to ${computerChoice}; You lose!`;
+            }
+        }
+
+        function shoot(hand1, hand2) {
+            if (hand1 == "Rock" && hand2 == "Scissors") {
+                return true;
+            }
+            if (hand1 == "Paper" && hand2 == "Rock") {
+                return true;
+            }
+            if (hand1 == "Scissors" && hand2 == "Paper") {
+                return true;
+            }
+            return false;
+        }
+        var button = document.querySelector('button');
+        button.addEventListener('click', onClick);
+    </script>
+</body>
+</html>
