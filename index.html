@@ -8,36 +8,88 @@
     
 </head>
 <body
-    <p>Make your choice!</p>
-    <select>
-        <option>--choose--</option>
-        <option>Rock</option>
-        <option>Paper</option>
-        <option>Scissors</option>
-    </select>
-    
-    <button>Go!</button>
+    <div class="container">
+        <div class="message">Make Your Choice!</div>
 
-    <div id="result"></div>
+        <div class="images">
+        </div>
+
+        <div class="result"></div>
+        <button id="reset">Play Again</button>
+    </div>
 
     <script>
-        const select = document.querySelector('select');
         const options = ["Rock", "Paper", "Scissors"];
+        let userChoice = "";
+
+        const result = document.querySelector('.result');
+
+        const rockImage = document.createElement("img")
+        rockImage.src = "rock.png";
+        rockImage.addEventListener('click', () => {userChoice="Rock"; onClick();})
+
+        const paperImage = document.createElement("img")
+        paperImage.src = "paper.png";
+        paperImage.addEventListener('click', () => {userChoice="Paper"; onClick();})
+
+        const scissorsImage = document.createElement("img")
+        scissorsImage.src = "scissors.png";
+        scissorsImage.addEventListener('click', () => {userChoice="Scissors"; onClick();})
+        
+        var button = document.querySelector('button');
+        button.addEventListener('click', reset);
+        //button.hidden = true;
+
+        var images = document.querySelector('.images');
+
+        
+        reset();
+
+        function clear() {
+            while (images.firstChild) {
+                images.removeChild(images.lastChild);
+            }
+        }
+
+        function reset() {
+            clear();
+            userChoice = "";
+            images.appendChild(rockImage);
+            images.appendChild(paperImage);
+            images.appendChild(scissorsImage);
+            button.hidden = true;
+            result.textContent = "";
+        }
 
         function onClick() {
-            let userChoice = select.value;
-            let computerChoice = options[Math.floor(Math.random()*2.999)];
-            const result = document.querySelector('div');
-            result.textContent = "Test!";
-            if (userChoice == "--choose--"){
-                result.textContent = "You have to pick one!"
-            } else if (userChoice == computerChoice) {
-                result.textContent = `Both sides choose ${userChoice}; Draw!`;
-            } else if (shoot(userChoice, computerChoice)) {
-                result.textContent = `${userChoice} beats ${computerChoice}; You win!`;
-            } else {
-                result.textContent = `${userChoice} loses to ${computerChoice}; You lose!`;
+            clear();
+
+            var imageSources = {
+                "Rock" : "rock.png",
+                "Paper" : "paper.png",
+                "Scissors" : "scissors.png",
             }
+
+            let computerChoice = options[Math.floor(Math.random()*2.999)];
+
+            const userImage = document.createElement("img");
+            userImage.src = imageSources[userChoice];
+            const computerImage = document.createElement("img");
+            computerImage.src = imageSources[computerChoice];
+
+            images.appendChild(userImage);
+            images.appendChild(computerImage);
+
+            
+            if (userChoice == computerChoice) {
+                result.textContent = `Both sides choose ${userChoice} - Draw!`;
+            } else if (shoot(userChoice, computerChoice)) {
+                result.textContent = `${userChoice} beats ${computerChoice} - You win!`;
+            } else {
+                result.textContent = `${userChoice} loses to ${computerChoice} - You lose!`;
+            }
+            button.hidden = false;
+
         }
 
         function shoot(hand1, hand2) {
@@ -52,8 +104,8 @@
             }
             return false;
         }
-        var button = document.querySelector('button');
-        button.addEventListener('click', onClick);
+
+        
     </script>
 </body>
 </html>
